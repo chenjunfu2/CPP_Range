@@ -1,18 +1,26 @@
 ﻿#ifndef RANGE_HPP
 #define RANGE_HPP
 
+#include <stdexcept>
+
 template <typename T>
 class Range
 {
+private:
+	T tBegin;
+	T tEnd;
+	T tStep;
+	mutable T tCurrent;//确保迭代器始终可用
+
 public:
-	Range(T _tStart, T _tEnd, T _tStep = 1) :tStart(_tStart), tEnd(_tEnd), tStep(_tStep), tCurrent(tStart)
+	Range(T _tStart, T _tEnd, T _tStep = 1) :tBegin(_tStart), tEnd(_tEnd), tStep(_tStep), tCurrent(tBegin)
 	{
 		if (tStep == 0)
 		{
-			throw "Step is zero!";//错误值异常
+			throw std::invalid_argument("Step is 0 !");//错误值异常
 		}
 	}
-	Range(T _tEnd) noexcept :tStart(0), tEnd(_tEnd), tStep(1), tCurrent(tStart)
+	Range(T _tEnd) noexcept :tBegin(0), tEnd(_tEnd), tStep(1), tCurrent(tBegin)
 	{}
 
 	~Range(void) = default;//确保可平凡析构！
@@ -42,7 +50,7 @@ public:
 
 	bool operator!=(const Range &_End) const noexcept
 	{
-		if (_End.tStep > 0)
+		if (tStep > 0)
 		{
 			return tCurrent < _End.tEnd;
 		}
@@ -57,11 +65,10 @@ public:
 		return tCurrent;
 	}
 
-protected:
-	const T tStart;
-	const T tEnd;
-	const T tStep;
-	mutable T tCurrent;
+	void reset(void) const noexcept
+	{
+		tCurrent = tBegin;
+	}
 };
 
 #endif // !RANGE_HPP
