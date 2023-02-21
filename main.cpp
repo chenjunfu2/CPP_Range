@@ -36,7 +36,7 @@ int main(void)
 	}
 	catch (std::invalid_argument &err)
 	{
-		printf("%s", err.what());//异常信息：Step is 0 !
+		printf("%s", err.what());//打印异常信息
 	}
 
 	return 0;
@@ -47,5 +47,6 @@ int main(void)
 32 40 48 56
 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
 0 1 2 3 4 5 6 7 8 9 10 11
-Step is 0 !
+In class : Range.Constructed(3 parameter)
+throw : The third parameter "_tStep" is 0 !
 */
